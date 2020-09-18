@@ -5,18 +5,18 @@ import json
 def lambda_handler(event, context):
     # ***************************************** #
     # give the table name and bucket name here .#
-    # and bucket should be created in us-west-2 #
+    # and bucket should be created in region #
     # ***************************************** #
 
-    table_name = 'tdg.proactiveoutage.details'
-    bucket_name = 'dynamodb-backup-files-api-sand'
-
+    table_name = 'your table name'
+    bucket_name = 'your bucket name'
+    region = 'your resources region
     # ***************************************** #
     # give the table name and bucket name here .#
-    # and bucket should be created in us-west-2 #
+    # and bucket should be created in region #
     # ***************************************** #
-    s3 = boto3.client('s3', 'us-west-2')
-    dynamodb = boto3.resource('dynamodb', 'us-west-2')
+    s3 = boto3.client('s3', region)
+    dynamodb = boto3.resource('dynamodb', region)
     table = dynamodb.Table(table_name)
     key_name = 'dynamodb_backup/' + table_name.replace('.', '_') + '.json'
     backup_dynamodb_json = []
@@ -49,6 +49,6 @@ def lambda_handler(event, context):
         Key=key_name
     )
     return {
-        's3 url path': f'https://{bucket_name}.s3-us-west-2.amazonaws.com/{key_name}',
+        's3 url path': f'https://{bucket_name}.s3-{region}.amazonaws.com/{key_name}',
         'Descritption': f'Find backup in this bucket {bucket_name} and find this file to get your data  *** {key_name} ***'
     }
